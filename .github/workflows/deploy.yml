@@ -21,17 +21,13 @@ jobs:
   testBuild:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - run: corepack enable
-
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v4
+      - name: Set up project
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ env.node-version }}
-
-      - name: Install Dependencies
-        run: yarn install --immutable
 
       - name: Build
         run: yarn run build
@@ -40,17 +36,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - run: corepack enable
-
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v4
+      - name: Set up project
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ env.node-version }}
-
-      - name: Install Dependencies
-        run: yarn install --immutable
 
       - name: Linting
         run: yarn run lint
@@ -61,17 +53,13 @@ jobs:
     needs: [testBuild, lint] # Only deploy if we pass these checks
     if: github.ref == 'refs/heads/main' # Only deploy the main branch
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - run: corepack enable
-
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v4
+      - name: Set up project
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ env.node-version }}
-
-      - name: Install Dependencies
-        run: yarn install --immutable
 
       - name: Build
         run: yarn run build
