@@ -1,4 +1,5 @@
 import { myMp, print } from "kolmafia";
+import ms from "ms";
 
 export function checkMP(): string {
   if (myMp() < 200) {
@@ -9,5 +10,6 @@ export function checkMP(): string {
 }
 
 export function main(): void {
+  print(ms(8675309, { long: true }));
   print(checkMP());
 }
